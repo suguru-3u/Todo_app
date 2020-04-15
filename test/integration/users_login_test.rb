@@ -15,7 +15,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
    assert_template 'users/show'
    delete logout_path
    assert_redirected_to root_url
-   follow_redirect!
+   # 2番目のウィンドウでログアウトをクリックするユーザーをシミュレートする
+    delete logout_path
+    follow_redirect!
  end
 
   test'login with invalid information' do
