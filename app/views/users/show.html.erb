@@ -1,2 +1,46 @@
 <%= @user.name %><br>
 <%= @user.email %>
+
+<% if @list.errors.any? %>
+  <div>
+    <div>
+      The form contains <%= pluralize(@list.errors.count, "error") %>.
+    </div>
+    <ul>
+    <% @list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<%= form_for(@list, url: lists_path) do |f|%>
+
+<%= f.label:title %>
+<%= f.text_field:title, class:'form-control' %>
+
+<%= f.label:body %>
+<%= f.text_field:body, class:'form-control' %>
+
+<%= f.submit 'Create List',class: 'btn btn-primary' %>
+
+<% end %>
+
+<table>
+  <thead>
+    <tr><th>ジャンル</th><th>やることリスト</th></tr>
+  </thead>
+  <tbody>
+    <% @lists.each do |lists| %>
+    <tr>
+      <td>
+        <%= lists.title %>
+      </td>
+      <td>
+        <%= lists.body %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
