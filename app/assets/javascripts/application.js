@@ -17,3 +17,36 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+
+$(document).on('turbolinks:load', function(){
+  function buildHTML(list){
+    var html = `<tr><td>${list.title}</td><td>${list.body}</td></tr>`
+    return html;
+  }
+  $('#new_list').on('submit',function(e){
+    e.preventDefault();
+    console.log(this)
+    var formData = new
+    FormData(this);
+    var url = $(this).attr('action')
+    $.ajax({
+      url:url,
+      type:'Post',
+      data:formData,
+      dataType:'json',
+      processData:false,
+      contentType:false
+    })
+    .done(function(list){
+      var html = buildHTML(list);
+      $(".todo_lists").append(html)
+      $('.blank').val('')
+    })
+    .fail(function(list){
+        alert('error');
+    })
+    .always(function(list){
+      $('.form__submit').prop('disabled', false);
+    })
+  })
+})

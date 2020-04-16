@@ -1,6 +1,7 @@
 <%= @user.name %><br>
 <%= @user.email %>
 
+<%# エラーメッセージ %>
 <% if @list.errors.any? %>
   <div>
     <div>
@@ -14,33 +15,35 @@
   </div>
 <% end %>
 
-
-<%= form_for(@list, url: lists_path) do |f|%>
+<%# 投稿機能 %>
+<%= form_for(@list, url: lists_path, id: "new_list") do |f|%>
 
 <%= f.label:title %>
-<%= f.text_field:title, class:'form-control' %>
+<%= f.text_field:title, class:'blank form-control' %>
 
 <%= f.label:body %>
-<%= f.text_field:body, class:'form-control' %>
+<%= f.text_field:body, class:'blank form-control' %>
 
-<%= f.submit 'Create List',class: 'btn btn-primary' %>
+<%= f.submit 'Create List',class: 'form__submit btn btn-primary' %>
 
 <% end %>
 
-<table>
-  <thead>
-    <tr><th>ジャンル</th><th>やることリスト</th></tr>
-  </thead>
-  <tbody>
-    <% @lists.each do |lists| %>
-    <tr>
-      <td>
-        <%= lists.title %>
-      </td>
-      <td>
-        <%= lists.body %>
-      </td>
-    </tr>
+
+<%# 投稿一覧を出力（非同期通信を行う） %>
+  <table>
+    <thead>
+      <tr><th>ジャンル</th><th>やることリスト</th></tr>
+    </thead>
+    <tbody class="todo_lists">
+    <% @lists.each do |list| %>
+      <tr>
+        <td>
+          <%= list.title %>
+        </td>
+        <td>
+          <%= list.body %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
-</table>
+  </table>
