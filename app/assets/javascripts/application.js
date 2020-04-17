@@ -20,7 +20,10 @@
 
 $(document).on('turbolinks:load', function(){
   function buildHTML(list){
-    var html = `<tr><td>${list.title}</td><td>${list.body}</td></tr>`
+    var html = `<tr><td>${list.title}</td><td>${list.body}</td>
+    <td><a href = /lists/${list.id}/edit> 編集</a></td>
+    <td><a data-confirm = "本当にいいんですか？",rel = "nofollow", href = /lists/${list.id}, data-method = "DELETE">削除</a></td>
+    </tr>`
     return html;
   }
   $('#new_list').on('submit',function(e){

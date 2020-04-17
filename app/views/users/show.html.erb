@@ -1,49 +1,64 @@
-<%= @user.name %><br>
-<%= @user.email %>
-
-<%# エラーメッセージ %>
-<% if @list.errors.any? %>
-  <div>
-    <div>
-      The form contains <%= pluralize(@list.errors.count, "error") %>.
+<!-- ログイン、サインアップ後のページ -->
+<div class="row mt-5">
+  <div class="col-md-3 mr-5 ml-3 ">
+    <div class="border p-5 border-secondary rounded">
+      <%# ユーザープロフィール情報 %>
+      <h3>プロフィール情報</h3>
+      <p>ユーザー名：<%= @user.name %></p>
+      <%= link_to 'プロフィール編集', edit_user_path(@user), class: 'btn btn-outline-secondary btn-block'%>
     </div>
-    <ul>
-    <% @list.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
   </div>
-<% end %>
 
-<%# 投稿機能 %>
-<%= form_for(@list, url: lists_path, id: "new_list") do |f|%>
-
-<%= f.label:title %>
-<%= f.text_field:title, class:'blank form-control' %>
-
-<%= f.label:body %>
-<%= f.text_field:body, class:'blank form-control' %>
-
-<%= f.submit 'Create List',class: 'form__submit btn btn-primary' %>
-
-<% end %>
-
-
-<%# 投稿一覧を出力（非同期通信を行う） %>
-  <table>
-    <thead>
-      <tr><th>ジャンル</th><th>やることリスト</th></tr>
-    </thead>
-    <tbody class="todo_lists">
-    <% @lists.each do |list| %>
-      <tr>
-        <td>
-          <%= list.title %>
-        </td>
-        <td>
-          <%= list.body %>
-        </td>
-      </tr>
+  <div class="col-md-7">
+    <%# エラーメッセージ %>
+    <% if @list.errors.any? %>
+    <div>
+      <div>
+        The form contains <%= pluralize(@list.errors.count, "error") %>.
+      </div>
+      <ul>
+        <% @list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
     <% end %>
-  </tbody>
-  </table>
+
+    <%# 投稿機能 %>
+    <%= form_for(@list, url: lists_path, id: "new_list") do |f|%>
+
+    <%= f.label:カテゴリー %>
+    <%= f.text_field:title, class:'blank form-control mb-3' %>
+
+    <%= f.label:やることリスト %>
+    <%= f.text_field:body, class:'blank form-control' %>
+
+    <%= f.submit '投稿',class: 'form__submit btn btn-primary mt-4' %>
+    <% end %>
+
+    <%# 投稿一覧を出力（非同期通信を行う） %>
+    <table class="table mt-4">
+      <thead>
+        <tr><th>カテゴリー</th><th>やることリスト</th><th></th><th></th></tr>
+      </thead>
+      <tbody class="todo_lists">
+        <% @lists.each do |list| %>
+        <tr>
+          <td>
+            <%= list.title %>
+          </td>
+          <td>
+            <%= list.body %>
+          </td>
+          <td>
+            <%= link_to '編集',edit_list_path(list.id) %>
+          </td>
+          <td>
+            <%= link_to '削除',list_path(list.id),method: :delete,data:{confirm:"本当にいいんですか？"} %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

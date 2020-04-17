@@ -1,0 +1,30 @@
+<!-- Todoリストの編集画面 -->
+<div class="row">
+  <div class="col-md-5">
+    <%# エラーメッセージ %>
+    <% if @list.errors.any? %>
+    <div>
+      <div>
+        The form contains <%= pluralize(@list.errors.count, "error") %>.
+      </div>
+      <ul>
+        <% @list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+    <%# 編集機能 %>
+    <%= form_for(@list) do |f|%>
+
+    <%= f.label:title %>
+    <%= f.text_field:title, class:'blank form-control' %>
+
+    <%= f.label:body %>
+    <%= f.text_field:body, class:'blank form-control' %>
+
+    <%= f.submit 'Create List',class: 'form__submit btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
